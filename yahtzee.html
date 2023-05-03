@@ -1,0 +1,256 @@
+<!--	Name: John Durso	
+Course:	235.02
+HomeWork:	#2
+Git-Hub:	https://github.com/VinceBonesteel/HW2
+-->	
+
+<DOCTYPE! HTML>
+<html>
+
+<head>
+    <title>Yahtzee</title>
+
+    <style type="text/css">
+        h1{
+            font-size: 32pt;
+            text-align: center;
+            background-color:white;
+            margin-top: 0px;
+        }
+
+        div.a{
+            text-align: center;
+        }
+        table.a{
+            margin-left: auto;
+            margin-right: auto;
+            
+        }
+        td.a{
+            text-align:right;
+        }
+        td.b{
+            border:1px inset #676767;
+            background-color: #AEAEFF;
+            width:2em;
+            height:2e;
+
+        }
+        td.c{
+            width: 150px;
+            text-align:center;
+            margin-left:200px;
+        }
+        button.a{
+            font-family: 'Times New Roman';
+            font-size: 16pt;
+            color:#ffd5ff;
+            background-color: #5701CE;
+        }
+        button.b{
+            font-family: 'Times New Roman';
+            font-size: 16pt;
+            color:#010333;
+            background-color: #adbfbf;
+        }
+    </style>
+
+<script language="JavaScript">
+
+    var v = new Array(0,0,0,0,0);
+    var h = new Array(false,false,false,false,false);
+    var b = new Array(0,0,0,0,0,0,0,0,0);
+    var tb = new Array(false,false,false,false,false,false,false,false,false,false);
+    let z = 0;
+    var rolls=0;
+    
+
+    function roll()
+    {
+        if (rolls<3){
+            for(i=0;i<5;i++)
+            {
+                if(!h[i])
+                {
+                var d = document.getElementById("d"+i);
+                v[i] = Math.floor(6*Math.random())+1;
+                d.src="pix/dice"+v[i]+".gif";
+                }
+            }
+            rolls+=1
+        }
+    }
+    function block(i)
+    {
+        var t = document.getElementById("d"+i);
+        h[i]= !h[i];
+        if(h[i])
+        {t.src="pix/diceX"+v[i]+".gif";}
+        else
+        {t.src="pix/dice"+v[i]+".gif"}
+
+    }
+    function hover(t){
+        if (parseInt(t)<6){
+            if(!tb[t]){
+            var g = document.getElementById("d"+t);
+            var tt = 0;
+                for(var i=0;i<5;i++){
+                    if(v[i]==(parseInt(t)+1)){
+                        tt+=v[i];
+                    }
+                }
+            document.getElementById("s"+(t+1)).innerHTML = tt;
+            z = tt;
+            }
+        }
+    }
+    function clr(i){
+        if(!tb[i]){
+            if(i<10){
+                t = document.getElementById("s"+(i+1));
+                t.innerHTML = "";
+            }
+        }
+    }
+    function total(){
+        var acc=0;
+        for(i=0;i<b.length;i++)
+        {
+            if(parseInt(b[i])!=NaN)
+            acc+= parseInt(b[i]);
+        }
+        document.getElementById("s10").innerHTML = acc;
+    }
+    function set(i){
+        if (tb[i-1]==false)
+        {
+            document.getElementById("s"+i).innerHTML = z;
+            b[i] = parseInt(document.getElementById("s"+i).innerHTML);
+        }
+        total();
+        tb[i-1]=true;
+        rolls=0;
+
+        for(j=0;j<h.length;j++)
+        {
+            var d = document.getElementById("d"+j);
+            d.src="pix/dice0"+".gif";
+            if(h[j])
+            {
+                h[j]=!h[j];
+            }
+        }
+    }
+    function tok(p){
+
+        var ct = new Array(0,0,0,0,0,0);
+        var kj = new Array(1,2,3,4,5,6);
+
+        for(i=0;i<v.length;i++)
+        {
+        
+            if(v[i]==1)
+            {
+                ct[0]+=1
+            }
+            if(v[i]==2)
+            {
+                ct[1]+=1
+            }
+            if(v[i]==3)
+            {
+                ct[2]+=1
+            }
+            if(v[i]==4)
+            {
+                ct[3]+=1
+            }
+            if(v[i]==5)
+            {
+                ct[4]+=1
+            }
+            if(v[i]==6)
+            {
+                ct[5]+=1
+            }
+        }
+
+        for(i=0;i<ct.length;i++)
+        {
+            if (p==9&&ct[i]==5)
+            {
+                z=5*kj[i];
+                document.getElementById("s9").innerHTML= z;
+            }
+            else if(p==8&&ct[i]==4)
+            {
+                z=4*kj[i];
+                document.getElementById("s8").innerHTML= z;
+            }
+            else if(p==7&&ct[i]==3)
+            {
+                z=3*kj[i];
+                document.getElementById("s7").innerHTML= z;
+            }
+        }
+    }
+    function ng(){
+
+    v = new Array(0,0,0,0,0);
+    h = new Array(false,false,false,false,false);
+    b = new Array(0,0,0,0,0,0,0,0,0);
+    tb = new Array(false,false,false,false,false,false,false,false,false,false);
+    z = 0;
+
+    for (i=0;i<5;i++){
+        var d = document.getElementById("d"+i);
+        d.src="pix/dice0"+".gif";
+    }
+    for(i=1;i<11;i++){
+        if(document.getElementById("s"+(i)).innerHTML != null){
+            document.getElementById("s"+(i)).innerHTML = "";
+        }
+    }
+    }
+    
+</script>
+
+</head>
+
+<body style="background-color:#efefef; margin-top:0px; ">
+       
+ 
+
+    <h1>Yahtzee</h1>
+    
+    <div class="a"> 
+    <img id="d0" onClick="block(0)" src="pix/dice0.gif">
+    <img id="d1" onClick="block(1)" src="pix/dice0.gif">
+    <img id="d2" onClick="block(2)" src="pix/dice0.gif">
+    <img id="d3" onClick="block(3)" src="pix/dice0.gif">
+    <img id="d4" onClick="block(4)" src="pix/dice0.gif">
+    </div>
+    <table  class="a">
+       <tr> <td class="a">1's</td>  <td id="s1" onClick="set(1)" onmouseover="hover(0)" onmouseout="clr(0)" class="b"></td> <td class="c" rowspan="5"><button onClick="roll()" class="a">Roll</button></td> </tr>
+       <tr> <td class="a">2's</td>  <td id="s2" onClick="set(2)" onmouseover="hover(1)" onmouseout="clr(1)" class="b"></td> <td></td> </tr>
+       <tr> <td class="a">3's</td>  <td id="s3" onClick="set(3)" onmouseover="hover(2)" onmouseout="clr(2)" class="b"></td> <td></td> </tr>
+       <tr> <td class="a">4's</td>  <td id="s4" onClick="set(4)" onmouseover="hover(3)" onmouseout="clr(3)" class="b"></td> <td></td> </tr>
+       <tr> <td class="a">5's</td>  <td id="s5" onClick="set(5)" onmouseover="hover(4)" onmouseout="clr(4)" class="b"></td> <td></td> </tr>
+       <tr> <td class="a">6's</td>  <td id="s6" onClick="set(6)" onmouseover="hover(5)" onmouseout="clr(5)" class="b"></td> <td class="c" rowspan="5"><button class="b" onClick="ng()">New game</button> </td> </tr>
+       <tr> <td class="a">3 of a kind</td>  <td id="s7" onClick="set(7)" onmouseover="tok(7)" onmouseout="clr(6)" class="b"></td> <td></td> </tr>
+       <tr> <td class="a">4 of a kind</td>  <td id="s8" onClick="set(8)" onmouseover="tok(8)" onmouseout="clr(7)" class="b"></td> <td></td> </tr>
+       <tr> <td class="a">Yahtzee</td>  <td id="s9" onClick="set(9)" onmouseover="tok(9)" onmouseout="clr(8)" class="b"></td> <td></td> </tr>
+       <tr> <td class="a">Total</td>  <td id="s10" class="b"></td> <td></td> </tr>
+
+    </table>
+
+
+
+
+
+</body>
+
+
+
+</html>
